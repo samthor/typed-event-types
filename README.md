@@ -11,7 +11,7 @@ interface WhateverEventMap {
   whatever: CustomEvent<number>;
 }
 
-class CustomEvents extends (EventTarget as TypedEventConstructor<EventTarget, WhateverEventMap>) {}
+class CustomEvents extends (EventTarget as TypedEventConstructor<typeof EventTarget, WhateverEventMap>) {}
 const c = new CustomEvents();
 
 c.addEventListener('whatever', (e) => {
@@ -22,18 +22,33 @@ c.addEventListener('whatever', (e) => {
 This also works for Custom Elements (or anything else that _already has_ events), and keeps all the existing events:
 
 ```ts
-class ElementWithMoreEvents extends (HTMLElement as TypedEventConstructor<HTMLElement, WhateverEventMap>) {}
+class ElementWithMoreEvents extends (HTMLElement as TypedEventConstructor<typeof HTMLElement, WhateverEventMap>) {}
 const e = new ElementWithMoreEvents();
 
-c.addEventListener('whatever', (e) => {
+e.addEventListener('whatever', (e) => {
   console.info(e.detail);  // <-- TS now knows this is a number
 });
-c.addEventListener('click', (e) => {
+e.addEventListener('click', (e) => {
   console.info(e.movementX);  // <-- TS still knows this is a MouseEvent
 });
 ```
 
 Great!
+
+You can also extend your types _again_, because that's the point:
+
+```ts
+class ExtendedEvenMoreEvents extends (ElementWithMoreEvents as TypedEventConstructor<typeof ElementWithMoreEvents, {
+  anotherEvent: CustomEvent<string>;
+}>) {}
+const ee = new ExtendedEvenMoreEvents();
+ee.addEventListener('anotherEvent', ({ detail }) => {
+  // detail is knowably a string
+});
+ee.addEventListener('whatever', ({ detail }) => {
+  // detail is knowably a number, we don't lose this
+});
+```
 
 ## Background
 
@@ -66,6 +81,14 @@ Well&hellip; check out the source.
 
 This internally includes `UnionToIntersection` [from here](https://fettblog.eu/typescript-union-to-intersection/).
 Thanks, [@ddprrt](https://twitter.com/ddprrt).
+
+## Contributions
+
+The syntax is pretty verbose.
+I've tried to make it slightly nicer to work with a builder function—it doesn't do anything, just returns the argument but casts it—but it ends up being a bit unsafe.
+
+Want to contribute?
+[@-me](https://twitter.com/samthor) or you know, do GitHub things.
 
 ## Usage
 

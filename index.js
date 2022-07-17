@@ -1,1 +1,2 @@
-// intentionally empty
+// This is intentionally empty.
+export {};

@@ -1,7 +1,10 @@
 {
   "type": "module",
   "types": "index.d.ts",
-  "exports": {},
+  "exports": {
+    "types": "./index.d.ts",
+    "import": "./index.js"
+  },
   "name": "typed-event-types",
   "description": "This package provides TypeScript types that help you add typed events to your `EventTarget` subclasses.",
   "version": "1.0.0",
