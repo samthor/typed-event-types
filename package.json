@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "types": "index.d.ts",
+  "exports": {},
+  "name": "typed-event-types",
+  "description": "This package provides TypeScript types that help you add typed events to your `EventTarget` subclasses.",
+  "version": "1.0.0",
+  "keywords": [
+    "types",
+    "typescript",
+    "eventtarget"
+  ],
+  "author": "Sam Thorogood <sam.thorogood@gmail.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "esbuild": "^0.14.49"
+  }
+}
