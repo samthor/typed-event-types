@@ -30,7 +30,7 @@ type ExpandEvents<T> = UnionToIntersection<ExpandEventsInternal<keyof T, T>>;
 /**
  * Creates a constructor which includes expanded events as well as the original type.
  */
-export type TypedEventConstructor<
+export type AddEvents<
   X extends abstract new (...args: any[]) => InstanceType<X> extends EventTarget ? any : never,
   T,
   > = (new (...args: ConstructorParameters<X>) => (ExpandEvents<T> & InstanceType<X>));

@@ -5,13 +5,13 @@ This package provides TypeScript types that help you add typed events to your `E
 To create a subclass of `EventTarget` that has custom events:
 
 ```ts
-import type { TypedEventConstructor } from 'typed-event-types';
+import type { AddEvents } from 'typed-event-types';
 
 interface WhateverEventMap {
   whatever: CustomEvent<number>;
 }
 
-class CustomEvents extends (EventTarget as TypedEventConstructor<typeof EventTarget, WhateverEventMap>) {}
+class CustomEvents extends (EventTarget as AddEvents<typeof EventTarget, WhateverEventMap>) {}
 const c = new CustomEvents();
 
 c.addEventListener('whatever', (e) => {
@@ -22,7 +22,7 @@ c.addEventListener('whatever', (e) => {
 This also works for Custom Elements (or anything else that _already has_ events), and keeps all the existing events:
 
 ```ts
-class ElementWithMoreEvents extends (HTMLElement as TypedEventConstructor<typeof HTMLElement, WhateverEventMap>) {}
+class ElementWithMoreEvents extends (HTMLElement as AddEvents<typeof HTMLElement, WhateverEventMap>) {}
 const e = new ElementWithMoreEvents();
 
 e.addEventListener('whatever', (e) => {
@@ -38,7 +38,7 @@ Great!
 You can also extend your types _again_, because that's the point:
 
 ```ts
-class ExtendedEvenMoreEvents extends (ElementWithMoreEvents as TypedEventConstructor<typeof ElementWithMoreEvents, {
+class ExtendedEvenMoreEvents extends (ElementWithMoreEvents as AddEvents<typeof ElementWithMoreEvents, {
   anotherEvent: CustomEvent<string>;
 }>) {}
 const ee = new ExtendedEvenMoreEvents();

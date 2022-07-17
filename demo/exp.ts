@@ -1,4 +1,4 @@
-import type { TypedEventConstructor } from '../index.js';
+import type { AddEvents } from '../index.js';
 
 
 class WhateverEvent {
@@ -12,7 +12,7 @@ interface WhateverEventMap {
 }
 
 
-const ElementWithMoreEventsType = HTMLElement as TypedEventConstructor<typeof HTMLElement, WhateverEventMap>;
+const ElementWithMoreEventsType = HTMLElement as AddEvents<typeof HTMLElement, WhateverEventMap>;
 class ElementWithMoreEvents extends ElementWithMoreEventsType {
   constructor(name: string) {
     super();
@@ -31,12 +31,12 @@ e.addEventListener('click', (e) => {
 /**
  * This is the identity function which simply helps wrap up a 
  */
-export function build<X extends new (...args: any[]) => X extends typeof EventTarget ? any : never, Q>(x: X, y: Q): TypedEventConstructor<X, Q> {
+export function build<X extends new (...args: any[]) => X extends typeof EventTarget ? any : never, Q>(x: X, y: Q): AddEvents<X, Q> {
   return x;
 }
 
 
-class ExtraMoreEvents extends (ElementWithMoreEvents as TypedEventConstructor<typeof ElementWithMoreEvents, {
+class ExtraMoreEvents extends (ElementWithMoreEvents as AddEvents<typeof ElementWithMoreEvents, {
   foo: CustomEvent<number>;
 }>) {
   constructor() {
