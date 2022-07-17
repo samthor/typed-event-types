@@ -11,10 +11,10 @@ interface WhateverEventMap {
   whatever: CustomEvent<number>;
 }
 
-class CustomEvents extends (EventTarget as AddEvents<typeof EventTarget, WhateverEventMap>) {}
-const c = new CustomEvents();
+class ObjectWithEvents extends (EventTarget as AddEvents<typeof EventTarget, WhateverEventMap>) {}
+const o = new ObjectWithEvents();
 
-c.addEventListener('whatever', (e) => {
+o.addEventListener('whatever', (e) => {
   console.info(e.detail);  // <-- TS now knows this is a number
 });
 ```
@@ -42,11 +42,11 @@ class ExtendedEvenMoreEvents extends (ElementWithMoreEvents as AddEvents<typeof 
   anotherEvent: CustomEvent<string>;
 }>) {}
 const ee = new ExtendedEvenMoreEvents();
-ee.addEventListener('anotherEvent', ({ detail }) => {
-  // detail is knowably a string
+ee.addEventListener('anotherEvent', (e) => {
+  console.info(e.detail);  // <-- TS now knows this is a string
 });
-ee.addEventListener('whatever', ({ detail }) => {
-  // detail is knowably a number, we don't lose this
+ee.addEventListener('whatever', (e) => {
+  console.info(e.detail);  // <-- TS still knows this is a number
 });
 ```
 

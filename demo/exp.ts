@@ -1,4 +1,8 @@
-import type { AddEvents } from '../index.js';
+import type { AddEvents, AddEvents2, EventTargetCtor } from '../index.js';
+
+
+
+class ElementWithFoo extends (HTMLElement as AddEvents<typeof HTMLElement, WhateverEventMap>) {}
 
 
 class WhateverEvent {
@@ -48,8 +52,22 @@ class ExtraMoreEvents extends (ElementWithMoreEvents as AddEvents<typeof Element
   }
 }
 
+class SubHTMLElement extends HTMLElement {}
+type ctorTest = EventTargetCtor<SubHTMLElement>;
+
+
+
+// TODO: seems to work fine????
+class SubEventHTMLElement extends (HTMLElement as AddEvents<typeof HTMLElement, {
+  foo: Event;
+}>) {}
+type ctorEventTest = EventTargetCtor<SubEventHTMLElement>;
+
 
 class Unrelated {};
+type ctorShouldBeNever = EventTargetCtor<Unrelated>;
+
+
 
 const FakeType = build(HTMLElement, {} as WhateverEventMap);
 const x = new FakeType();
