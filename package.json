@@ -7,12 +7,20 @@
   },
   "name": "typed-event-types",
   "description": "This package provides TypeScript types that help you add typed events to your `EventTarget` subclasses.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "types",
     "typescript",
     "eventtarget"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samthor/typed-event-types.git"
+  },
+  "bugs": {
+    "url": "https://github.com/samthor/typed-event-types/issues"
+  },
+  "homepage": "https://github.com/samthor/typed-event-types#readme",
   "author": "Sam Thorogood <sam.thorogood@gmail.com>",
   "license": "Apache-2.0",
   "devDependencies": {
