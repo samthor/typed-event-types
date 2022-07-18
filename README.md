@@ -84,6 +84,34 @@ Thanks, [@ddprrt](https://twitter.com/ddprrt).
 
 ## Contributions
 
+### Unknown This
+
+Because of the way the `addEventListener` etc calls are added, we don't know what `this` is at the time.
+Listeners added this way should get the `this` of the `EventTarget`.
+
+This is a limitation but _only if you're using_ `function() { ... }`, which, &hellip;you probably aren't, anymore.
+So if you're writing inline handlers, use `() => { ... }`.
+To be clear, this isn't _dangerous_: we just say that `this` is `EventTarget`, which is true, but not very useful.
+TypeScript will complain at you.
+
+This doesn't effect self-referential cases like this:
+
+```ts
+class ElementWithMoreEvents extends (HTMLElement as AddEvents<typeof HTMLElement, WhateverEventMap>) {
+  constructor() {
+    super();
+    this.addEventListener('whatever', this.unboundHandler);
+  }
+  unboundHandler() {
+    // this will be from the caller, and for events, it's set correctly
+  }
+}
+```
+
+Maybe you can help fix&hellip; `this`? 👀
+
+### Verbose Syntax
+
 The syntax is pretty verbose.
 I've tried to make it slightly nicer to work with a builder function—it doesn't do anything, just returns the argument but casts it—but it ends up being a bit unsafe.
 

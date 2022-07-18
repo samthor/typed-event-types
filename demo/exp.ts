@@ -47,9 +47,17 @@ class ExtraMoreEvents extends (ElementWithMoreEvents as AddEvents<typeof Element
     super('whatever');
     this.addEventListener('foo', ({ detail }) => {});
     this.addEventListener('custom', ({ detail }) => {
-
+      this.extraMoreEvents;
     });
+
+    this.addEventListener('custom', this.unboundHandler);
   }
+
+  unboundHandler() {
+    this.extraMoreEvents;
+  }
+
+  extraMoreEvents = 123;
 }
 
 class SubHTMLElement extends HTMLElement {}
